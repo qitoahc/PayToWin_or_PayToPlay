@@ -79,6 +79,7 @@ target/
 file_exploration.ipynb
 set_cards_exploration.ipynb
 price_cards_exploration.ipynb
+deck_lists_exploration.ipynb
 
 #source large data
 data/DeckLists
