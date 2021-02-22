@@ -76,6 +76,11 @@ target/
 
 # Jupyter Notebook
 .ipynb_checkpoints
+file_exploration.ipynb
+
+#source large data
+data/DeckLists
+data/MTGJSONcards
 
 # IPython
 profile_default/
