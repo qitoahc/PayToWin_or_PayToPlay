@@ -57,12 +57,23 @@ CREATE TABLE detritus (
 );
 
 CREATE TABLE decklists (
-    uuid UUID PRIMARY KEY,
+    uuid UUID,
     "card_count" SMALLINT,
     "sideboard" BOOLEAN,
     "deckname" TEXT
 );
 
+CREATE TABLE setdetails (
+    setcode varchar(5) PRIMARY KEY,
+    setname TEXT 
+    setreleasedate DATE
+);
 
+CREATE TABLE nan_uuid_decklists (
+    "cardname" TEXT,
+    "card_count" SMALLINT,
+    "sideboard" BOOLEAN,
+    "deckname" TEXT
+);
 
     
