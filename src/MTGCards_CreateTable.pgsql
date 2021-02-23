@@ -56,6 +56,13 @@ CREATE TABLE detritus (
     "originalType" TEXT
 );
 
+CREATE TABLE decklists (
+    uuid UUID PRIMARY KEY,
+    "card_count" SMALLINT,
+    "sideboard" BOOLEAN,
+    "deckname" TEXT
+);
+
 
 
     
