@@ -65,7 +65,7 @@ CREATE TABLE decklists (
 
 CREATE TABLE setdetails (
     setcode varchar(5) PRIMARY KEY,
-    setname TEXT 
+    setname TEXT, 
     setreleasedate DATE
 );
 
@@ -76,4 +76,10 @@ CREATE TABLE nan_uuid_decklists (
     "deckname" TEXT
 );
 
+CREATE TABLE fixed_prices (
+    uuid UUID PRIMARY KEY,
+    price_source TEXT,
+    price DOUBLE PRECISION,  
+    price_date DATE
+);
     

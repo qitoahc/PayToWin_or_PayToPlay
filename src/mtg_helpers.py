@@ -152,5 +152,5 @@ def add_uuid_to_deck(deck_df, conn, df_name_field):
 
     
 
-if __name__ == __main__:
+if __name__ == "__main__":
     pass
