@@ -5,6 +5,7 @@ from io import StringIO
 import sqlalchemy
 from sqlalchemy import create_engine
 import sys
+import os
 
 def dict_peek(dict, types):
     """
