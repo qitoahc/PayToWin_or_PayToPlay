@@ -3,7 +3,7 @@
 ![alt text](https://github.com/qitoahc/PayToWin_or_PayToPlay/blob/main/images/banner.png)
 
 # Table of Contents
-1. [Overview and Motivation](#overview-and-motivation)
+1. [Intro and Motivation](#intro-and-motivation)
 2. [Magic: The Gathering - What is it exactly?](#magic:-the-gathering---what-is-it-exactly?)
 3. [Areas of exploration](#areas-of-exploration)
 4. [Data Sources](#data-sources)
@@ -12,7 +12,6 @@
 7. [Testing the Hypothesis](#testing-the-hypothesis)
 8. [Conclusion](#conclusion)
 9. [Photo and Data Credits](#photo-and-data-credits)
-
 
 ## **Intro and Motivation**: 
 As someone who enjoys Magic: The Gathering (MTG) as a causal activity with friends, I’ve often heard people talk about enjoying it, but feeling like it's a money pit and whoever spends the most on a given deck always wins.  On the flip side, I've both built and seen decks that leverage low cost cards in creative ways to achieve a solid win rate.  So I thought...why not take a stab at learning more about if there's truth in the statement that it's just a 'pay to win' game.
@@ -23,11 +22,13 @@ From Wikipedia, the free encyclopedia:
 
   - "A player in Magic takes the role of a Planeswalker, doing battle with other players as Planeswalkers by casting spells, using artifacts, and summoning creatures as depicted on individual cards drawn from their individual decks. A player defeats their opponents typically, but not always, by draining them of their starting life total. Although the original concept of the game drew heavily from the motifs of traditional fantasy role-playing games such as Dungeons & Dragons, the gameplay bears little similarity to pencil-and-paper adventure games, while simultaneously having substantially more cards and more complex rules than many other card games. "
 
-
+![alt text](https://github.com/qitoahc/PayToWin_or_PayToPlay/blob/main/images/arean_game_play.png)
 
 ## **Areas of Exploration**:
+As touched on in the introduction, my primary goal for the first phase of this project is to be able to compare the deck costs for the top 16 MTG players in the world against a collection of decks from 'skilled amateurs' of the game.  Ultimately my hypothesis is that there is not a stastitically significant difference in the costs between the two groups of decks.
 
 ## **Data Sources**:
+
 
 ## **Data Processing and Cleaning**:
 
