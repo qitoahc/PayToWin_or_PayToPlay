@@ -27,7 +27,9 @@ MTG produces four sets of cards annually.  Each set consists of approximately 35
 ![alt text](https://github.com/qitoahc/PayToWin_or_PayToPlay/blob/main/images/arean_game_play.png)
 
 ## **Areas of Exploration**:
-As touched on in the introduction, my primary goal for the first phase of this project is to be able to compare the deck costs for the top 16 MTG players in the world against a collection of decks from 'skilled amateurs' of the game.  Ultimately my hypothesis is that there is not a stastitically significant difference in the costs between the two groups of decks.
+As touched on in the introduction, my primary goal for the first phase of this project is to be able to compare the deck costs for the top 16 MTG players in the world against a collection of decks from 'skilled amateurs' of the game.  Ultimately I was looking to test my friends' hypothesis that this was a 'pay to win' game, and thus my null hypothesis would be that there was no difference between the world tournament competitor decks and the skilled amateur decks.  For this test I'd like to feel pretty confident in the results and will set our alpha level at .05%.  
+
+The results from the Mann Whitney U test was: ***enter results***
 
 ## **Data Sources**:
 There were four distinct categories of data sets across two primary sources:
@@ -75,13 +77,13 @@ The diagram below provides a visual summary of what was built for this first pha
     2. There were only card names as far as card identifiers go (see the pricing section and the image above for examples of wrinkles this could present)
     3. They contained integers corresponding to the number of each card present in a given deck
     4. There were relatively more of them (44) compared to the other data sets
-  -  Item 1 was handled by reading the files in and processing line by line to parse, trap for header/section rows, and store in an appropriately structured dataframe.
+  -  Item 1 was handled by reading the files in and processing line by line to parse, trap for header/section rows, and store in an appropriately structured dataframe.  There was a bug in my initial code related to a 'unique' element of a few deck lists that was caught in my analysis phase, and I was able to refine my code and reprocess everything.
   -  Item 2 required two steps, the first was a direct name match which achieved 90% match rate.  For the unmatched ones, after some research discovered that a good amount of these were related to the complex cards previously mentioned and that the names in the deck lists were often a substring of the name in the master card data.  Was able to get 100% match rate by building a process to look and match on the presence of the substring within the master name.
   -  Item 3 was handled by carrying the numbers forward and in analysis steps just using them to multiply things like price when looking at total deck analyses.
   -  Item 4 was handled by building my file processing script to access the folder and then iterate through each file present.
 
 ## **Extraction and Visualization**:
-Once everything was cleaned and loaded to the postgresql DB, data extraction for analysis was managed within jupyter notebooks using psycopg2 and sql alchemy to pull the necessary data directly into dataframes.
+Once everything was cleaned and loaded to the postgresql DB, data extraction for analysis was managed within jupyter notebooks using psycopg2 and sql alchemy to pull the necessary data directly into dataframes.  From there I simply grouped data into the deck categories, created deck-level card and cost totals, and calculated the average cost per card in a deck.
 
 When thining about possible approaches to the hypothesis test, I knew that I needed to assess how the core deck vs. sideboard compared to make a decision about inclusion/exclusion.  I also needed to get a sense for how the costs were distributed both within the player categories but also relative to each other.  I also made the decision to look at the average price per card as the cost metric as a way to frame it in a more approachable manner.  Below are histograms and boxplots looking at the distributions:
 
@@ -91,60 +93,43 @@ When thining about possible approaches to the hypothesis test, I knew that I nee
 
 These charts highlight a few key things: (1) the sideboards and core decks are quite different, especially within the world competitor group (2) the world comp core decks are clearly not normal (3) the two sets of core decks are not from the same distribution.  This info, coupled with the notion that the core decks are really where people put their best and primary cards, led me to decide to exclude the sideboards from the rest of the deck-comparison analysis.  
 
-![alt text](
+In the spirit of highlighting the impact of analysis/visualization on confirming the success of data cleaning and processing activities, I offer an example that helped call out the two issues mentioned above (bug in deck list processing and need to fill in the 28 missing prices).  Here's the 'before' graph that helped really identify the impacts of what had seemed like minor issues:
+
+![alt text](https://github.com/qitoahc/PayToWin_or_PayToPlay/blob/main/images/Priced_deck_size_by_category%20-%20original.png)
+
+And the after:
 
 ![alt text](
 
-![alt text](
-
-![alt text](
-
+The black lines indicated what I'd been considering as far as a 'cutoff line' so that I was only using adequately complete decks.  Cheers to QC and reuasable code!
 
 
 ## **Testing the Hypothesis**:
-Additionally, it seems that conducting a Mann-Whitney U test will be the approach I will take.  
+Based on the analysis so far, it was time to conduct the hypothesis test.  Based on the play categories not being from the same distribution, not having enough samples to invoke the Central Limit Theorem, and neither distribution appearing to be normal... landed on conducting a Mann-Whitney U test.  At a high level, this test consists of comparing each value from one category against each value from the other category and essentially tabulating a metric that reflects how many 'victories' the first category has over the second.  [Wikipedia](https://en.wikipedia.org/wiki/Mann%E2%80%93Whitney_U_test) offers a good deep dive for those inclined to digging deeper.
+
+Given that my hypothesis was   ***insert results and commentary re: friends.
+
+
+## **('light') Featurization and Visualization**:
+Now that I had my answer, I wanted to begin to dig into the data a bit deeper and work towards learning more about card-level price correlations.  With an potential end goal in mind around modeling opportunities (either around prices or OOP deck analysis/modeling) I knew it would be important to be able to categorize cards by color and by types.  There's something called 'devotion' in Magic that refers to how many icons of a given mana type or color is present.  My data on card color was messy in that it was a string field with curly braces surrounding a single letter for each color and a number for any uncolored mana.  As an example, here's what the data field might look like:  4{W}{B} corresponding to 4 uncolored, 1 white, and 1 black mana.  I built a helper function and migrated this data to card-level counts for each color in a color specific column.  This would allow future color-based analysis, but as an initial use case let me look at calculating a mono-color devotion for each deck.  Below is a chart showing this devotional color by player category and the prices of each.
+
+![alt text](https://github.com/qitoahc/PayToWin_or_PayToPlay/blob/main/images/Card_prices_by_devotion_category.png)
+
+Of particular interest is that there is not a single world competitor deck that is predominantly green!
+
+The next item to look at was card type.  This was another field that was 'rich' in information... as well as noise.  The field would have things like 'Legendary Planeswalker - Chandra', when what I really wanted was just the simple five categories from above: artifact, planeswalker, spell, land, and creature.  To give a bit of a sense of what was in the raw data, here's a wordcloud:
+
+![alt text](
+
+I was able to tackle this by creating a new column and populating it leveraging a helper function that tested for the categories I wanted within 'sterilized' verions of the raw category data.  More specifically, the helper function standardized the case, removed punctuation, and then matched the 5 categories against presence in the modified data set.  Since some cards can have multiple categories and I really just wanted to assign a single one, I did establish a priority in my assignment as: planeswalker, creature, spell, land, artifact.  From this work I was now able to make a simple pie chart for both the total card sets as well as the decks.  
+
+![alt text](
+
+The distribution of the 'all cards' makes sense, as there aren't many lands produced outside of the 5 basic types that correspond to the five colors.  
+When first getting into the game, I was told a 'balanced' deck was typically 40% land, 40% creatures, and 20% spells/artifacts.  It's interesting to see the strong skew towards spells/artifacts present in the combined world comp and skilled amateur view.  Maybe something to consider when I make my next deck...   
 
 ## **Close-out**:
   something about how while yes, the world champ-level players do have more costly decks than skilled amateurs... the distributions are such that it's not an overwhelming
   
-## Analysis:
--  Key MVP:
-   - Avg. price per World Title Competitor Deck (16 entrants) vs. Avg. price for ‘6-win streak’ decks from MTG Arena players in top ‘unranked’ tiers
-   - Could also do avg. price per card across them - have to think about what impacts to power the two approaches could have (if any)
-     - Hypothesis is that World Champ deck costs are equal or less than more casual player top decks
-   - Correlation between price and card rank on popular MTG forum
-   - Card price by rarity category
- - Secondary/supporting analyses:
-    Deck mix comparisons between two groups (World Title / Arena)
-    Card types/mix and colors
-    Card price by release set across 6 sets included in tournament rules
- - MVP+
-    Explore concept of ‘power’ of a card 
-    Starting with pulling out categories of skills/effects (some are explicitly identified in data set, some will require mining text fields from cards)
-    Explore price and power correlations
-    Individual elements of power vs. price, as well as ‘count of elements’ and price
-    Develop way to identify ‘price efficiency’ of cards
 
-## Data
- - 6-win streak decks, platinum or above on Arena, current
-    https://magic.gg/decklists/traditional-standard-ranked-decklists-february-8-2021
-    MVP - download representative sample (16 to match tournament decks) of deck lists to match World Title Deck 
-    MVP+ - leverage screen scraping tools to automatically navigate deck downloading across all posted 
- - Top 16 world champion contenders
-    https://magic.gg/events/magic-world-championship-xxvi#top-8
- - Comprehensive card data extracts
-    https://mtgjson.com/downloads/all-files/
-    Card lists (essentially everything visible on the card + limited external data such as the rank from a populare MTG forum)
-    For purposes of pipeline demonstration, plan to download files per release set and then build total library for tournament play across the ~6 releases included
- - Prices for cards
-    Data set contains more than one pricing source
-    MVP - look at price only from one source
-    MVP+ - explore price variation by storefront and/or use aggregate pricing
-    
-    
-```bash
-'Adults (ages 15+) living with HIV'
-'Age at first marriage, female'
-'Wanted fertility rate (births per woman)'
-```
 https://en.wikipedia.org/wiki/Magic:_The_Gathering
