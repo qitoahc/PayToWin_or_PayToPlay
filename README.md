@@ -1,34 +1,44 @@
-# Magic: The Gathering -- PayTo Win or Pay To Play?
+# Magic: The Gathering -- Pay To Win or Pay To Play?
 
 ![alt text](https://github.com/qitoahc/PayToWin_or_PayToPlay/blob/main/images/banner.png)
 
 # Table of Contents
-1. [Overview](#overview)
-2. [Areas of exploration](#areas-of-exploration)
-3. [Data Sources](#data-sources)
-4. [Data Processing and Cleaning](#data-processing-and-cleaning)
-5. [Visualization](#visualization)
-6. [Testing the Hypothesis](#testing-the-hypothesis)
-7. [Conclusion](#conclusion)
-8. [Photo and Data Credits](#photo-and-data-credits)
+1. [Overview and Motivation](#overview-and-motivation)
+2. [Magic: The Gathering - What is it exactly?](#magic:-the-gathering---what-is-it-exactly?)
+3. [Areas of exploration](#areas-of-exploration)
+4. [Data Sources](#data-sources)
+5. [Data Processing and Cleaning](#data-processing-and-cleaning)
+6. [Visualization](#visualization)
+7. [Testing the Hypothesis](#testing-the-hypothesis)
+8. [Conclusion](#conclusion)
+9. [Photo and Data Credits](#photo-and-data-credits)
 
 
-## **Overview**: 
-As someone who enjoys MTG socially/casually I’ve often heard people talk about enjoying it as well but ultimately leaving because it’s just a “whoever dumps the most cash has the best deck and thus always wins”.  The ultimate goal of this project is to explore this perspective.
+## **Intro and Motivation**: 
+As someone who enjoys Magic: The Gathering (MTG) as a causal activity with friends, I’ve often heard people talk about enjoying it, but feeling like it's a money pit and whoever spends the most on a given deck always wins.  On the flip side, I've both built and seen decks that leverage low cost cards in creative ways to achieve a solid win rate.  So I thought...why not take a stab at learning more about if there's truth in the statement that it's just a 'pay to win' game.
+
+## **Magic: The Gathering - What is it exactly?**:
+From Wikipedia, the free encyclopedia:
+_Magic: The Gathering (colloquially known as Magic or MTG) is a collectible and digital collectible card game created by Richard Garfield.[1] Released in 1993 by Wizards of the Coast (now a subsidiary of Hasbro), Magic was the first trading card game and has approximately thirty-five million players as of December 2018,[2][3][4] and over twenty billion Magic cards produced in the period from 2008 to 2016, during which time it grew in popularity.[5][6]
+
+_A player in Magic takes the role of a Planeswalker, doing battle with other players as Planeswalkers by casting spells, using artifacts, and summoning creatures as depicted on individual cards drawn from their individual decks. A player defeats their opponents typically, but not always, by draining them of their starting life total. Although the original concept of the game drew heavily from the motifs of traditional fantasy role-playing games such as Dungeons & Dragons, the gameplay bears little similarity to pencil-and-paper adventure games, while simultaneously having substantially more cards and more complex rules than many other card games. 
+__
+
 
 ## **Areas of Exploration**:
 
 ## **Data Sources**:
 
-## **Data Processing and Cleaning**
+## **Data Processing and Cleaning**:
 
-## **Visualization**
+## **Visualization**:
 
-## **Testing the Hypothesis**
+## **Testing the Hypothesis**:
 
-## **Close-out
-
-## Analysis
+## **Close-out**:
+  something about how while yes, the world champ-level players do have more costly decks than skilled amateurs... the distributions are such that it's not an overwhelming
+  
+## Analysis:
 -  Key MVP:
    - Avg. price per World Title Competitor Deck (16 entrants) vs. Avg. price for ‘6-win streak’ decks from MTG Arena players in top ‘unranked’ tiers
    - Could also do avg. price per card across them - have to think about what impacts to power the two approaches could have (if any)
@@ -68,3 +78,4 @@ As someone who enjoys MTG socially/casually I’ve often heard people talk about
 'Age at first marriage, female'
 'Wanted fertility rate (births per woman)'
 ```
+https://en.wikipedia.org/wiki/Magic:_The_Gathering
