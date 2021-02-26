@@ -2,8 +2,31 @@
 
 ![alt text](https://github.com/qitoahc/PayToWin_or_PayToPlay/blob/main/images/banner.png)
 
+# Table of Contents
+1. [Overview](#overview)
+2. [Areas of exploration](#areas-of-exploration)
+3. [Data Sources](#data-sources)
+4. [Data Processing and Cleaning](#data-processing-and-cleaning)
+5. [Visualization](#visualization)
+6. [Testing the Hypothesis](#testing-the-hypothesis)
+7. [Conclusion](#conclusion)
+8. [Photo and Data Credits](#photo-and-data-credits)
 
-Overview: As someone who enjoys MTG socially/casually I’ve often heard people talk about enjoying it as well but ultimately leaving because it’s just a “whoever dumps the most cash has the best deck and thus always wins”.  The ultimate goal of this project is to explore this perspective.
+
+## **Overview**: 
+As someone who enjoys MTG socially/casually I’ve often heard people talk about enjoying it as well but ultimately leaving because it’s just a “whoever dumps the most cash has the best deck and thus always wins”.  The ultimate goal of this project is to explore this perspective.
+
+## **Areas of Exploration**:
+
+## **Data Sources**:
+
+## **Data Processing and Cleaning**
+
+## **Visualization**
+
+## **Testing the Hypothesis**
+
+## **Close-out
 
 ## Analysis
 -  Key MVP:
