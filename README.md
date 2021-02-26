@@ -119,17 +119,17 @@ Of particular interest is that there is not a single world competitor deck that 
 
 The next item to look at was card type.  This was another field that was 'rich' in information... as well as noise.  The field would have things like 'Legendary Planeswalker - Chandra', when what I really wanted was just the simple five categories from above: artifact, planeswalker, spell, land, and creature.  To give a bit of a sense of what was in the raw data, here's a wordcloud:
 
-![alt text](
+![alt text](https://github.com/qitoahc/PayToWin_or_PayToPlay/blob/main/images/card_type_cloud_initial.png)
 
 I was able to tackle this by creating a new column and populating it leveraging a helper function that tested for the categories I wanted within 'sterilized' verions of the raw category data.  More specifically, the helper function standardized the case, removed punctuation, and then matched the 5 categories against presence in the modified data set.  Since some cards can have multiple categories and I really just wanted to assign a single one, I did establish a priority in my assignment as: planeswalker, creature, spell, land, artifact.  From this work I was now able to make a simple pie chart for both the total card sets as well as the decks.  
 
-![alt text](
+![alt text](https://github.com/qitoahc/PayToWin_or_PayToPlay/blob/main/images/pie_charts_yummy.png)
 
 The distribution of the 'all cards' makes sense, as there aren't many lands produced outside of the 5 basic types that correspond to the five colors.  
 When first getting into the game, I was told a 'balanced' deck was typically 40% land, 40% creatures, and 20% spells/artifacts.  It's interesting to see the strong skew towards spells/artifacts present in the combined world comp and skilled amateur view.  Maybe something to consider when I make my next deck...   
 
 ## **Close-out**:
-  something about how while yes, the world champ-level players do have more costly decks than skilled amateurs... the distributions are such that it's not an overwhelming
+  
   
 
 https://en.wikipedia.org/wiki/Magic:_The_Gathering
