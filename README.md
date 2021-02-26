@@ -45,8 +45,16 @@ There were four distinct categories of data sets across two primary sources:
     - https://mtgjson.com/downloads/all-files/
 
 ## **Data Processing and Cleaning**:
+Given the data sets obtained, the primary objective, and a desire to be able to continue to build on this project, I decided that building a data processing pipeline that incorporated storage within a database would be a critical part of this first phase.  Not only would this enable 'ongoing' data processing, it would also give a solid data architecture to facilitate the current and future analyses as I'd be able to pull sets for analysis scaled to the questions at hand.
+
+The diagram below provides a visual summary of what was built for this first phase and gives a high-level view into the PostgreSQL structure used.  Highlights around each file type are provided below along with the appropriate links to the python notebooks used to establish this first 'manual-powered' phase.    
 
 ![alt text](https://github.com/qitoahc/PayToWin_or_PayToPlay/blob/main/images/MTG_flow_erd.png)
+
+
+- Card component data
+- Card prices
+- Decklists
 
 ## **Visualization**:
 
