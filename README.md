@@ -22,13 +22,27 @@ From Wikipedia, the free encyclopedia:
 
   - "A player in Magic takes the role of a Planeswalker, doing battle with other players as Planeswalkers by casting spells, using artifacts, and summoning creatures as depicted on individual cards drawn from their individual decks. A player defeats their opponents typically, but not always, by draining them of their starting life total. Although the original concept of the game drew heavily from the motifs of traditional fantasy role-playing games such as Dungeons & Dragons, the gameplay bears little similarity to pencil-and-paper adventure games, while simultaneously having substantially more cards and more complex rules than many other card games. "
 
+MTG produces four sets of cards annually.  Each set consists of approximately 350 cards.  There is a category of deck creation called 'standard' that limits players to the most recent 6 sets released.  This 'standard' format is the focus of this analysis as that's the type of competition that each of the types of players described above participate in.
+
 ![alt text](https://github.com/qitoahc/PayToWin_or_PayToPlay/blob/main/images/arean_game_play.png)
 
 ## **Areas of Exploration**:
 As touched on in the introduction, my primary goal for the first phase of this project is to be able to compare the deck costs for the top 16 MTG players in the world against a collection of decks from 'skilled amateurs' of the game.  Ultimately my hypothesis is that there is not a stastitically significant difference in the costs between the two groups of decks.
 
 ## **Data Sources**:
-
+There were four distinct categories of data sets across two primary sources:
+ - Skilled Amateur Deck Lists
+    - Wizards of the Coast publish 'featured' deck lists from their online gaming platform, The Arena.  These decks are selected based on the criteria that the players are playing at a platinum tier or higher on The Arena and the decks have achieved a 6-game win streak at that tier.  28 decks were available at the time of this projec, available as individual text file downloads.
+    - https://magic.gg/decklists/traditional-standard-ranked-decklists-february-8-2021
+ - Top 16 World Champion Contenders Deck Lists
+    - Wizards of the Coast recently published the deck lists from the 2020 World Champion tournament, available through individual text file downloads.
+    - https://magic.gg/events/magic-world-championship-xxvi#top-8
+ - Comprehensive Card Detail Data
+    - There is a site (mtgjson.com) that is managed by a group of dedicated individuals that collects and aggregates comprehensive MTG card data and then publishes regularly updated JSON files.  For the purposes of this project, files for eight individual sets were downloaded and included in the processing and analyzing steps to align with the sets included in standard competition, which was the type of competition the selected deck lists participated in.  The site maintains a variety of other download options in addition to set-specific.  Each set file contains all of the cards for that set including comprehensive data from the card such as: name, card type, casting costs, every text element on the card, language translations, etc.  Each card also has a UUID assigned.
+    - https://mtgjson.com/downloads/all-files/
+ - Card Prices
+    - MTGJSON.com maintains a separate data extract that contains roughly two months (if applicable) of pricing data for all cards across multiple sources.  For each source, there can also be multiple prices available depending on the format of the card (online, paper, etc.) and 'finish' (foil, normal, etc.).  Each card contains a UUID and the data is available through a single large JSON file.
+    - https://mtgjson.com/downloads/all-files/
 
 ## **Data Processing and Cleaning**:
 
