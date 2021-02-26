@@ -6,6 +6,9 @@ import sqlalchemy
 from sqlalchemy import create_engine
 import sys
 import os
+from os import listdir
+from os.path import isfile, join
+from string import punctuation
 
 def dict_peek(dict, types):
     """
@@ -120,6 +123,25 @@ def add_new_card_data(conn_details, card_inf_df, table, conn):
     conn.commit()
     print(f'Successful updating of {table}')
 
+def get_most_recent_uuid_for_card_names(conn):
+    query = sql.SQL("""
+        WITH newestsetdate AS (
+            SELECT name, MAX(setreleasedate) as max_date
+            FROM core
+            JOIN setdetails ON "setCode" = "setcode"
+            GROUP BY name
+            ),
+            newestset AS (
+            SELECT name, setcode
+            FROM newestsetdate
+            JOIN setdetails ON newestsetdate.max_date = setdetails.setreleasedate
+            )
+
+            SELECT core.uuid, newestset.name
+            FROM core
+            INNER JOIN newestset ON newestset.name = core.name AND newestset.setcode = core."setCode";""")
+    return pd.read_sql(query, conn).groupby("name").max() 
+
 def add_uuid_to_deck(deck_df, conn, df_name_field):
     """
     Overview
@@ -167,6 +189,47 @@ def get_prices(uuid, card_format, price_source, price_list, card_type_order, pri
             for type in card_type_order:
                 if  type in retail:
                     return retail[type]    
+                    
+def prepare_decklists(deck_files, data_path):
+    """
+    #dict -->  keys are the cards w/ a list 
+    #dataframe columns = deckname as str, card name as str, count as int, #sideboard as bool
+    """
+    
+    deck = {'deckname':[], 'cardname':[], 'card_count':[], 'sideboard':[]}
+    for file_name in deck_files:
+        companion = 0
+        file = open(data_path+file_name, 'r')
+        sideboard = False
+        for line in file:
+
+            items = line.split(" ")
+            if (items[0][:4] == 'Deck'):
+                pass
+            elif (items[0][:9] == 'Companion'):
+                companion = 1
+            elif '\n' in items or items[0][:9] == 'Sideboard':
+                if companion == 1:
+                    companion -= 1
+                else:
+                    sideboard = True
+            else:
+                try:
+                    deck['deckname'].append(file_name)
+                    deck['cardname'].append(" ".join(items[1:]).replace('\n',''))
+                    deck['card_count'].append(int(items[0]))
+                    deck['sideboard'].append(sideboard)
+                except (Exception, ValueError) as error:
+                     print(f'Unable to process: {error} ; file {filename}')
+    return deck
+
+def text_rawify(text):
+    """
+    """
+    lowered = text.lower()
+    punct_less = ''.join([c for c in lowered if c not in punctuation])
+    raw_text = ''.join(punct_less.split(' '))
+    return raw_text
 
 if __name__ == "__main__":
     pass
