@@ -22,7 +22,7 @@ From Wikipedia, the free encyclopedia:
 
   - "A player in Magic takes the role of a Planeswalker, doing battle with other players as Planeswalkers by casting spells, using artifacts, and summoning creatures as depicted on individual cards drawn from their individual decks. A player defeats their opponents typically, but not always, by draining them of their starting life total. Although the original concept of the game drew heavily from the motifs of traditional fantasy role-playing games such as Dungeons & Dragons, the gameplay bears little similarity to pencil-and-paper adventure games, while simultaneously having substantially more cards and more complex rules than many other card games. "
 
-MTG produces four sets of cards annually.  Each set consists of approximately 350 cards.  There is a category of deck creation called 'standard' that limits players to the most recent 6 sets released.  This 'standard' format is the focus of this analysis as that's the type of competition that each of the types of players described above participate in.
+MTG produces four sets of cards annually.  Each set consists of approximately 350 cards.  There is a category of deck creation called 'standard' that limits players to the most recent 6 sets released.  Each deck must have a minimum of 60 cards in their deck and are allowed a 15 card 'sideboard'.  The sideboard is a small pool of cards that can be used to refine their deck in between games at a tournament.  This 'standard' format is the focus of this analysis as that's the type of competition that each of the types of players described above participate in.
 
 ![alt text](https://github.com/qitoahc/PayToWin_or_PayToPlay/blob/main/images/arean_game_play.png)
 
@@ -55,7 +55,8 @@ The diagram below provides a visual summary of what was built for this first pha
   - This was the first data set that was tackled, and as such the took the most time.  This was the data set where I developed a basic approach for digging into a large and highly nested JSON format.  While the source website provided some basic information, it was unclear just how some of the data would be presented and translated from the cards.  Additionally, the presence of ~10 translations resulted in large swaths (literally rows and rows per card of screen-width text in other languages I have no understanding of) of hard to digest information.  Ultimately I was able to work through to the actual card-specific data, and from there explore the formats and types of data to build the table schema to start working with (as roughly shown in the diagram above).  To give an example of the variation that can occur, please see the image below that puts a sample card from each of the 5 main types (artifact, planeswalker, spell - instant being just one of a handful of subtypes, land, and creature),  side by side (**foreshadowing...***) 
 
 ![alt text](https://github.com/qitoahc/PayToWin_or_PayToPlay/blob/main/images/sample_card_types.png)
-  - As you may guess... this variation resulted in most of the data needing to be of a string or collection of strings data type.  Additionally, there turned out to be a very slight variation in data elements provided between the sets requiring me to add a column or two with each run to accomodate the full 'all-set' data.   
+ 
+ - As you may guess... this variation resulted in most of the data needing to be of a string or collection of strings data type.  Additionally, there turned out to be a very slight variation in data elements provided between the sets requiring me to add a column or two with each run to accomodate the full 'all-set' data.   
   - Ultimately though, the data process was somewhat straightforward once I had the schema and understanding, and was handled by splitting the data into dataframes for each of the applicable tables (card data, set data, and detritus table) and then inserting into the appropriate DB tables.  Table creation was performed initially through SQL queries directly within the DB.  
   - The detritus table was a design i developed to enable me to ingest all of the data in the files, maintain linkage via the UUID, but keep the core tables and data for my analysis as lean and normalized as possible.  In the future, the data is there and can be unpacked as needed.  The biggest issue was with some of the nested collections I had to develop a process for converting them to strings so that the table would accept the data.
   - The [notebook](insert link) has been cleaned up as far as leveraging helper functions stored in an importable .py [file](https://github.com/qitoahc/PayToWin_or_PayToPlay/blob/main/src/mtg_helpers.py), but has been left with examples of the data and research conducted for those who would look to see more specifics of how it was navigated.
@@ -66,11 +67,42 @@ The diagram below provides a visual summary of what was built for this first pha
   - Additionally, because in general cards become less valuable the further from their release date they are (because they rotate out of standard amongst other reasons), I took the 'oldest' price value present per card to better approximate the prices when they were 'fresh' and in demand so as to avoid any skewing towards decks made out of older cards.
   - As I moved through the analysis phase of the project, I determined that of the 168 cards with missing prices, 28 of them were included in the deck lists. I dug further into this and identified that they were all non-standard cards in that they either had 'dual' domains or were in fact dual-sided.  Examples of these instances are provided at the end of this section for reference.  My hypothesis is that some of the data in the data sets was obtained through screen scraping and/or web-crawling and that these complex cards causee issues with what data is gathered about the cards that is in turn used to query pricing sources.  Because it was only 28, I manually looked them up on cardkingdom and ran an augmentation file run to update all cards needed for deck analysis.
 
+![alt text](https://github.com/qitoahc/PayToWin_or_PayToPlay/blob/main/images/complex_cards.png)
+
 - Decklists
+  - This data set while 'simple' in that the files were small, presented a few intriguing challenges for the project:
+    1. They were in a relatively unstructured format with 3 different formats across the decks
+    2. There were only card names as far as card identifiers go (see the pricing section and the image above for examples of wrinkles this could present)
+    3. They contained integers corresponding to the number of each card present in a given deck
+    4. There were relatively more of them (44) compared to the other data sets
+  -  Item 1 was handled by reading the files in and processing line by line to parse, trap for header/section rows, and store in an appropriately structured dataframe.
+  -  Item 2 required two steps, the first was a direct name match which achieved 90% match rate.  For the unmatched ones, after some research discovered that a good amount of these were related to the complex cards previously mentioned and that the names in the deck lists were often a substring of the name in the master card data.  Was able to get 100% match rate by building a process to look and match on the presence of the substring within the master name.
+  -  Item 3 was handled by carrying the numbers forward and in analysis steps just using them to multiply things like price when looking at total deck analyses.
+  -  Item 4 was handled by building my file processing script to access the folder and then iterate through each file present.
 
 ## **Extraction and Visualization**:
+Once everything was cleaned and loaded to the postgresql DB, data extraction for analysis was managed within jupyter notebooks using psycopg2 and sql alchemy to pull the necessary data directly into dataframes.
+
+When thining about possible approaches to the hypothesis test, I knew that I needed to assess how the core deck vs. sideboard compared to make a decision about inclusion/exclusion.  I also needed to get a sense for how the costs were distributed both within the player categories but also relative to each other.  I also made the decision to look at the average price per card as the cost metric as a way to frame it in a more approachable manner.  Below are histograms and boxplots looking at the distributions:
+
+![alt text](https://github.com/qitoahc/PayToWin_or_PayToPlay/blob/main/images/histo_decks_avg_price_of_card_sideboard_and_core_by_category.png)
+
+![alt text](https://github.com/qitoahc/PayToWin_or_PayToPlay/blob/main/images/deck_pricepercard_by_core_and_side_and_category.png)
+
+These charts highlight a few key things: (1) the sideboards and core decks are quite different, especially within the world competitor group (2) the world comp core decks are clearly not normal (3) the two sets of core decks are not from the same distribution.  This info, coupled with the notion that the core decks are really where people put their best and primary cards, led me to decide to exclude the sideboards from the rest of the deck-comparison analysis.  
+
+![alt text](
+
+![alt text](
+
+![alt text](
+
+![alt text](
+
+
 
 ## **Testing the Hypothesis**:
+Additionally, it seems that conducting a Mann-Whitney U test will be the approach I will take.  
 
 ## **Close-out**:
   something about how while yes, the world champ-level players do have more costly decks than skilled amateurs... the distributions are such that it's not an overwhelming
