@@ -29,8 +29,6 @@ MTG produces four sets of cards annually.  Each set consists of approximately 35
 ## **Areas of Exploration**:
 As touched on in the introduction, my primary goal for the first phase of this project is to be able to compare the deck costs for the top 16 MTG players in the world against a collection of decks from 'skilled amateurs' of the game.  Ultimately I was looking to test my friends' hypothesis that this was a 'pay to win' game, and thus my null hypothesis would be that there was no difference between the world tournament competitor decks and the skilled amateur decks.  For this test I'd like to feel pretty confident in the results and will set our alpha level at .05%.  
 
-The results from the Mann Whitney U test was: ***enter results***
-
 ## **Data Sources**:
 There were four distinct categories of data sets across two primary sources:
  - Skilled Amateur Deck Lists
@@ -98,19 +96,22 @@ In the spirit of highlighting the impact of analysis/visualization on confirming
 
 And the after:
 
-![alt text](
+![alt text](https://github.com/qitoahc/PayToWin_or_PayToPlay/blob/main/images/priced_deck_size_by_category%20-%20after%20issue%20fix.png)
 
-The black lines indicated what I'd been considering as far as a 'cutoff line' so that I was only using adequately complete decks.  Cheers to QC and reuasable code!
+The black lines indicated what I'd been considering as far as a 'cutoff line' so that I was only using adequately complete decks.  
+This is a great example of how what seemed like minor issues when building my data pipeline happend to present significant issues to my targeted analysis.  It also shows the value of continued review and data inspection throughout the analysis process.
+### Three cheers to QC and reuasable code!
 
 
 ## **Testing the Hypothesis**:
-Based on the analysis so far, it was time to conduct the hypothesis test.  Based on the play categories not being from the same distribution, not having enough samples to invoke the Central Limit Theorem, and neither distribution appearing to be normal... I decided to conduct a Mann-Whitney U test.  At a high level, this test consists of comparing each value from one category against each value from the other category and tabulating a metric that reflects how many 'victories' the first category has over the second.  This statistic result is ultimately used to assess the result of the test and produce a p value.  [Wikipedia](https://en.wikipedia.org/wiki/Mann%E2%80%93Whitney_U_test) offers a good deep dive for those inclined to digging deeper.
+Based on the analysis so far, it was time to conduct the hypothesis test.  Based on the play categories not being from the same distribution, not having enough samples to invoke the Central Limit Theorem, not appearing to be normal, but being independent from each other... I decided to conduct a Mann-Whitney U test.  At a high level, this test consists of comparing each value from one category against each value from the other category and tabulating a metric that reflects how many 'victories' the first category has over the second.  This statistic result is ultimately used to assess the result of the test and produce a p value.  [Wikipedia](https://en.wikipedia.org/wiki/Mann%E2%80%93Whitney_U_test) offers a good deep dive for those inclined to digging deeper.
 
-Given that my hypothesis was   ***insert results and commentary re: friends.
+Given that my hypothesis was linked to my friends' assertions that winning was just about how much money you spent, I set up the null hypothesis to be comparing the world competitor group with the assumption that their costs were not higher than that of the skilled amateurs.  The p-value returned from the test was .19, indicating that I could not reject my null hypothesis and that there did not appear to be clear difference in price between these groups...which in turn leads me to infer that there really is some skill at play with how the cards are selected, decks built, and ultimately the game played.
 
+This result aligns to what the box plots showed up above, in that there was a significant amount of overlap between the two inner quartiles.
 
 ## **('light') Featurization and Visualization**:
-Now that I had my answer, I wanted to begin to dig into the data a bit deeper and work towards learning more about card-level price correlations.  With an potential end goal in mind around modeling opportunities (either around prices or OOP deck analysis/modeling) I knew it would be important to be able to categorize cards by color and by types.  There's something called 'devotion' in Magic that refers to how many icons of a given mana type or color is present.  My data on card color was messy in that it was a string field with curly braces surrounding a single letter for each color and a number for any uncolored mana.  As an example, here's what the data field might look like:  4{W}{B} corresponding to 4 uncolored, 1 white, and 1 black mana.  I built a helper function and migrated this data to card-level counts for each color in a color specific column.  This would allow future color-based analysis, but as an initial use case let me look at calculating a mono-color devotion for each deck.  Below is a chart showing this devotional color by player category and the prices of each.
+Now that I had my answer, I wanted to begin to dig into the data a bit deeper and work towards learning more about card-level price correlations and eventually models to identify cost-efficient cards and deck tuning.  I knew it would be important to be able to categorize cards by color and by types as  starting point.  There's something called 'devotion' in Magic that refers to how many icons of a given mana type or color is present.  My data on card color was messy in that it was a string field with curly braces surrounding a single letter for each color and a number for any uncolored mana.  As an example, here's what the data field might look like:  4{W}{B} corresponding to 4 uncolored, 1 white, and 1 black mana.  I built a helper function and migrated this data to card-level counts for each color in a color specific column. So the 4{W}{B} becomes a value of 1 in each of the 'White' and 'Black' columns.  This would allow future color-based analysis, but as an initial use case let me look at calculating a mono-color devotion for each deck.  I did this by summing the tallies of each card in a deck and taking the color with the max value.  Below is a chart showing this devotional color by player category and the prices of each.
 
 ![alt text](https://github.com/qitoahc/PayToWin_or_PayToPlay/blob/main/images/Card_prices_by_devotion_category.png)
 
@@ -128,7 +129,12 @@ The distribution of the 'all cards' makes sense, as there aren't many lands prod
 When first getting into the game, I was told a 'balanced' deck was typically 40% land, 40% creatures, and 20% spells/artifacts.  It's interesting to see the strong skew towards spells/artifacts present in the combined world comp and skilled amateur view.  Maybe something to consider when I make my next deck...   
 
 ## **Close-out**:
-  
+
+All in all this was a great project as it allowed me to get a lot of hands on experience with JSON file formats, bulk file processing, pipeline creation, postgreSQL, and matplotlib visualization... but also helped me build a solid rebuttal against my friends' perpsective on skill in Magic!  
+
+One of the areas of interest i have for future work is looking at characteristics that make a good deck and/or a valuable card.  Based on the outcome of this project, I now how to look at both groups of deck builders... finding commonalities that might be 'universal best practices' but then drill in further to identify any differences that might highlight that 'special sauce' the world competition stage players bring.
+
+A final thought was that I also discovered my enjoyment with data engineering in addition to the more data sciencey aspects of this project.. and appreciate that I now have a replicable process for continuing to ingest and build out the repository and analysis I've built.
   
 
 https://en.wikipedia.org/wiki/Magic:_The_Gathering
