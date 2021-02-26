@@ -4,7 +4,7 @@
 
 # Table of Contents
 1. [Intro and Motivation](#intro-and-motivation)
-2. [Magic: The Gathering Overview](#magic:-the-gathering-overview)
+2. [Magic Overview](#magic-overview)
 3. [Areas of exploration](#areas-of-exploration)
 4. [Data Sources](#data-sources)
 5. [Data Processing and Cleaning](#data-processing-and-cleaning)
@@ -16,7 +16,7 @@
 ## **Intro and Motivation**: 
 As someone who enjoys Magic: The Gathering (MTG) as a causal activity with friends, I’ve often heard people talk about enjoying it, but feeling like it's a money pit and whoever spends the most on a given deck always wins.  On the flip side, I've both built and seen decks that leverage low cost cards in creative ways to achieve a solid win rate.  So I thought...why not take a stab at learning more about if there's truth in the statement that it's just a 'pay to win' game.
 
-## **Magic: The Gathering Overview**:
+## **Magic Overview**:
 From Wikipedia, the free encyclopedia:
   - "Magic: The Gathering (colloquially known as Magic or MTG) is a collectible and digital collectible card game created by Richard Garfield.[1] Released in 1993 by Wizards of the Coast (now a subsidiary of Hasbro), Magic was the first trading card game and has approximately thirty-five million players as of December 2018,[2][3][4] and over twenty billion Magic cards produced in the period from 2008 to 2016, during which time it grew in popularity.[5][6]"
 
@@ -44,19 +44,23 @@ There were four distinct categories of data sets across two primary sources:
     - MTGJSON.com maintains a separate data extract that contains roughly two months (if applicable) of pricing data for all cards across multiple sources.  For each source, there can also be multiple prices available depending on the format of the card (online, paper, etc.) and 'finish' (foil, normal, etc.).  Each card contains a UUID and the data is available through a single large JSON file.
     - https://mtgjson.com/downloads/all-files/
 
-## **Data Processing and Cleaning**:
+## **Data Processing, Cleaning, and Storage**:
 Given the data sets obtained, the primary objective, and a desire to be able to continue to build on this project, I decided that building a data processing pipeline that incorporated storage within a database would be a critical part of this first phase.  Not only would this enable 'ongoing' data processing, it would also give a solid data architecture to facilitate the current and future analyses as I'd be able to pull sets for analysis scaled to the questions at hand.
 
 The diagram below provides a visual summary of what was built for this first phase and gives a high-level view into the PostgreSQL structure used.  Highlights around each file type are provided below along with the appropriate links to the python notebooks used to establish this first 'manual-powered' phase.    
 
 ![alt text](https://github.com/qitoahc/PayToWin_or_PayToPlay/blob/main/images/MTG_flow_erd.png)
 
-
 - Card component data
+- 
+
+
+![alt text](
 - Card prices
+
 - Decklists
 
-## **Visualization**:
+## **Extraction and Visualization**:
 
 ## **Testing the Hypothesis**:
 
