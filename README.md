@@ -7,11 +7,12 @@
 2. [Magic Overview](#magic-overview)
 3. [Areas of exploration](#areas-of-exploration)
 4. [Data Sources](#data-sources)
-5. [Data Processing and Cleaning](#data-processing-and-cleaning)
-6. [Visualization](#visualization)
+5. [Data Processing, Cleaning, and Storage](#data-processing,-cleaning,-and-storage)
+6. [Extraction and Visualization](#extraction-and-visualization)
 7. [Testing the Hypothesis](#testing-the-hypothesis)
-8. [Conclusion](#conclusion)
-9. [Photo and Data Credits](#photo-and-data-credits)
+8. [Light Featurization and More Visualization](#light-featurization-and-more-visualization)
+9. [Close out](#close-out)
+10.[Credits](#credits)
 
 ## **Intro and Motivation**: 
 As someone who enjoys Magic: The Gathering (MTG) as a causal activity with friends, I’ve often heard people talk about enjoying it, but feeling like it's a money pit and whoever spends the most on a given deck always wins.  On the flip side, I've both built and seen decks that leverage low cost cards in creative ways to achieve a solid win rate.  So I thought...why not take a stab at learning more about if there's truth in the statement that it's just a 'pay to win' game.
@@ -110,7 +111,7 @@ Given that my hypothesis was linked to my friends' assertions that winning was j
 
 This result aligns to what the box plots showed up above, in that there was a significant amount of overlap between the two inner quartiles.
 
-## **('light') Featurization and Visualization**:
+## **Light Featurization and More Visualization**:
 Now that I had my answer, I wanted to begin to dig into the data a bit deeper and work towards learning more about card-level price correlations and eventually models to identify cost-efficient cards and deck tuning.  I knew it would be important to be able to categorize cards by color and by types as  starting point.  There's something called 'devotion' in Magic that refers to how many icons of a given mana type or color is present.  My data on card color was messy in that it was a string field with curly braces surrounding a single letter for each color and a number for any uncolored mana.  As an example, here's what the data field might look like:  4{W}{B} corresponding to 4 uncolored, 1 white, and 1 black mana.  I built a helper function and migrated this data to card-level counts for each color in a color specific column. So the 4{W}{B} becomes a value of 1 in each of the 'White' and 'Black' columns.  This would allow future color-based analysis, but as an initial use case let me look at calculating a mono-color devotion for each deck.  I did this by summing the tallies of each card in a deck and taking the color with the max value.  Below is a chart showing this devotional color by player category and the prices of each.
 
 ![alt text](https://github.com/qitoahc/PayToWin_or_PayToPlay/blob/main/images/Card_prices_by_devotion_category.png)
@@ -128,7 +129,7 @@ I was able to tackle this by creating a new column and populating it leveraging 
 The distribution of the 'all cards' makes sense, as there aren't many lands produced outside of the 5 basic types that correspond to the five colors.  
 When first getting into the game, I was told a 'balanced' deck was typically 40% land, 40% creatures, and 20% spells/artifacts.  It's interesting to see the strong skew towards spells/artifacts present in the combined world comp and skilled amateur view.  Maybe something to consider when I make my next deck...   
 
-## **Close-out**:
+## **Close out**:
 
 All in all this was a great project as it allowed me to get a lot of hands on experience with JSON file formats, bulk file processing, pipeline creation, postgreSQL, and matplotlib visualization... but also helped me build a solid rebuttal against my friends' perpsective on skill in Magic!  
 
@@ -136,5 +137,11 @@ One of the areas of interest i have for future work is looking at characteristic
 
 A final thought was that I also discovered my enjoyment with data engineering in addition to the more data sciencey aspects of this project.. and appreciate that I now have a replicable process for continuing to ingest and build out the repository and analysis I've built.
   
+## **Credits**
 
-https://en.wikipedia.org/wiki/Magic:_The_Gathering
+Overviews for Magic and Stats: https://en.wikipedia.org/
+Card data: https://mtgjson.com
+Deck list data: https://magic.wizards.com
+Images: https://magic.wizards.com
+
+
