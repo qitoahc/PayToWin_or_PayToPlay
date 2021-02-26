@@ -1,5 +1,7 @@
-# PayToWin_or_PayToPlay
-An exploration into Magic: The Gathering and the truthiness of the 'whoever dumps the most money into a deck, always wins' perspective
+# Magic: The Gathering -- PayTo Win or Pay To Play?
+
+![alt text](https://github.com/qitoahc/PayToWin_or_PayToPlay/blob/main/images/banner.png)
+
 
 Overview: As someone who enjoys MTG socially/casually I’ve often heard people talk about enjoying it as well but ultimately leaving because it’s just a “whoever dumps the most cash has the best deck and thus always wins”.  The ultimate goal of this project is to explore this perspective.
 
@@ -36,3 +38,10 @@ Overview: As someone who enjoys MTG socially/casually I’ve often heard people 
     Data set contains more than one pricing source
     MVP - look at price only from one source
     MVP+ - explore price variation by storefront and/or use aggregate pricing
+    
+    
+```bash
+'Adults (ages 15+) living with HIV'
+'Age at first marriage, female'
+'Wanted fertility rate (births per woman)'
+```
