@@ -151,7 +151,22 @@ def add_uuid_to_deck(deck_df, conn, df_name_field):
     name_id_df = pd.read_sql(query, conn).groupby("name").max() 
     return deck_df.merge(name_id_df, how = 'left', left_on=df_name_field, right_on="name")
 
-    
+def get_prices(uuid, card_format, price_source, price_list, card_type_order, price_data_json):
+    """receives price lookup info, price info, and returns prices for a card or none if failure to find
+    """
+    if price_source not in price_data_json[uuid][card_format]:
+        pass
+        #print(f'Price source value of {price_source} is not available for {card_format} and {uuid}')
+    else:
+        source = price_data_json[uuid][card_format][price_source]
+        if price_list not in source:
+            pass
+            #print(f'Price list value of {price_list} is not available for {price_source} and {uuid}')
+        else:
+            retail = source[price_list]
+            for type in card_type_order:
+                if  type in retail:
+                    return retail[type]    
 
 if __name__ == "__main__":
     pass
