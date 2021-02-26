@@ -7,7 +7,7 @@
 2. [Magic Overview](#magic-overview)
 3. [Areas of exploration](#areas-of-exploration)
 4. [Data Sources](#data-sources)
-5. [Data Processing, Cleaning, and Storage](#data-processing,-cleaning,-and-storage)
+5. [Data Processing and Storage](#data-processing-and-storage)
 6. [Extraction and Visualization](#extraction-and-visualization)
 7. [Testing the Hypothesis](#testing-the-hypothesis)
 8. [Light Featurization and More Visualization](#light-featurization-and-more-visualization)
@@ -45,7 +45,7 @@ There were four distinct categories of data sets across two primary sources:
     - MTGJSON.com maintains a separate data extract that contains roughly two months (if applicable) of pricing data for all cards across multiple sources.  For each source, there can also be multiple prices available depending on the format of the card (online, paper, etc.) and 'finish' (foil, normal, etc.).  Each card contains a UUID and the data is available through a single large JSON file.
     - https://mtgjson.com/downloads/all-files/
 
-## **Data Processing, Cleaning, and Storage**:
+## **Data Processing and Storage**:
 Given the data sets obtained, the primary objective, and a desire to be able to continue to build on this project, I decided that building a data processing pipeline that incorporated storage within a database would be a critical part of this first phase.  Not only would this enable 'ongoing' data processing, it would also give a solid data architecture to facilitate the current and future analyses as I'd be able to pull sets for analysis scaled to the questions at hand.
 
 The diagram below provides a visual summary of what was built for this first phase and gives a high-level view into the PostgreSQL structure used.  Highlights around each file type are provided below along with the appropriate links to the python notebooks used to establish this first 'manual-powered' phase.    
@@ -137,11 +137,11 @@ One of the areas of interest i have for future work is looking at characteristic
 
 A final thought was that I also discovered my enjoyment with data engineering in addition to the more data sciencey aspects of this project.. and appreciate that I now have a replicable process for continuing to ingest and build out the repository and analysis I've built.
   
-## **Credits**
+## **Credits**:
 
-Overviews for Magic and Stats: https://en.wikipedia.org/
-Card data: https://mtgjson.com
-Deck list data: https://magic.wizards.com
-Images: https://magic.wizards.com
+  - Overviews for Magic and Stats: https://en.wikipedia.org/
+  - Card data: https://mtgjson.com
+  - Deck list data: https://magic.wizards.com
+  - Images: https://magic.wizards.com
 
 
