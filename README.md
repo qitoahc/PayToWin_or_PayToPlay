@@ -7,7 +7,7 @@
 2. [Magic Overview](#magic-overview)
 3. [Areas of exploration](#areas-of-exploration)
 4. [Data Sources](#data-sources)
-5. [Data Processing, Cleaning, and Storage](#data-processing,-cleaning,-and-storage)
+5. [Data Processing and Storage](#data-processing-and-storage)
 6. [Extraction and Visualization](#extraction-and-visualization)
 7. [Testing the Hypothesis](#testing-the-hypothesis)
 8. [Light Featurization and More Visualization](#light-featurization-and-more-visualization)
@@ -45,7 +45,7 @@ There were four distinct categories of data sets across two primary sources:
     - MTGJSON.com maintains a separate data extract that contains roughly two months (if applicable) of pricing data for all cards across multiple sources.  For each source, there can also be multiple prices available depending on the format of the card (online, paper, etc.) and 'finish' (foil, normal, etc.).  Each card contains a UUID and the data is available through a single large JSON file.
     - https://mtgjson.com/downloads/all-files/
 
-## **Data Processing, Cleaning, and Storage**:
+## **Data Processing and Storage**:
 Given the data sets obtained, the primary objective, and a desire to be able to continue to build on this project, I decided that building a data processing pipeline that incorporated storage within a database would be a critical part of this first phase.  Not only would this enable 'ongoing' data processing, it would also give a solid data architecture to facilitate the current and future analyses as I'd be able to pull sets for analysis scaled to the questions at hand.
 
 The diagram below provides a visual summary of what was built for this first phase and gives a high-level view into the PostgreSQL structure used.  Highlights around each file type are provided below along with the appropriate links to the python notebooks used to establish this first 'manual-powered' phase.    
@@ -105,9 +105,9 @@ This is a great example of how what seemed like minor issues when building my da
 
 
 ## **Testing the Hypothesis**:
-Based on the analysis so far, it was time to conduct the hypothesis test.  Based on the play categories not being from the same distribution, not having enough samples to invoke the Central Limit Theorem, not appearing to be normal, but being independent from each other... I decided to conduct a Mann-Whitney U test.  At a high level, this test consists of comparing each value from one category against each value from the other category and tabulating a metric that reflects how many 'victories' the first category has over the second.  This statistic result is ultimately used to assess the result of the test and produce a p value.  [Wikipedia](https://en.wikipedia.org/wiki/Mann%E2%80%93Whitney_U_test) offers a good deep dive for those inclined to digging deeper.
+Based on the analysis so far, it was time to conduct the hypothesis test.  Based on the play categories not being from the same distribution, not appearing to be normal, but being independent from each other... I decided to conduct a Mann-Whitney U test.  At a high level, this test consists of comparing each value from one category against each value from the other category and tabulating a metric that reflects how many 'victories' the first category has over the second.  This statistic result is ultimately used to assess the result of the test and produce a p value.  [Wikipedia](https://en.wikipedia.org/wiki/Mann%E2%80%93Whitney_U_test) offers a good deep dive for those inclined to digging deeper.
 
-Given that my hypothesis was linked to my friends' assertions that winning was just about how much money you spent, I set up the null hypothesis to be comparing the world competitor group with the assumption that their costs were not higher than that of the skilled amateurs.  The ## p-value returned from the test was .19 (much higher than my desired threshold of .05), indicating that I could not reject my null hypothesis ## and that there did not appear to be clear difference in price between these groups...which in turn leads me to infer that there really is some skill at play with how the cards are selected, decks built, and ultimately the game played.
+Given that my hypothesis was linked to my friends' assertions that winning was just about how much money you spent, I set up the null hypothesis to be comparing the world competitor group with the assumption that their costs were not higher than that of the skilled amateurs.  The *p-value returned from the test was .19 (much higher than my desired threshold of .05), indicating that I could not reject my null hypothesis* and that there did not appear to be clear difference in price between these groups...which in turn leads me to infer that there really is some skill at play with how the cards are selected, decks built, and ultimately the game played.
 
 This result aligns to what the box plots showed up above, in that there was a significant amount of overlap between the two inner quartiles.
 
@@ -137,11 +137,11 @@ One of the areas of interest i have for future work is looking at characteristic
 
 A final thought was that I also discovered my enjoyment with data engineering in addition to the more data sciencey aspects of this project.. and appreciate that I now have a replicable process for continuing to ingest and build out the repository and analysis I've built.
   
-## **Credits**
+## **Credits**:
 
-Overviews for Magic and Stats: https://en.wikipedia.org/
-Card data: https://mtgjson.com
-Deck list data: https://magic.wizards.com
-Images: https://magic.wizards.com
+  - Overviews for Magic and Stats: https://en.wikipedia.org/
+  - Card data: https://mtgjson.com
+  - Deck list data: https://magic.wizards.com
+  - Images: https://magic.wizards.com
 
 
