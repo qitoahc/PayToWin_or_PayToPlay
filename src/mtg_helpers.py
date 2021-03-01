@@ -124,6 +124,16 @@ def add_new_card_data(conn_details, card_inf_df, table, conn):
     print(f'Successful updating of {table}')
 
 def get_most_recent_uuid_for_card_names(conn):
+    """
+    Overview:
+        Function for retrieving the most recent UUID for a given card name as cards can be re-issued in multiple sets, and the current analysis looks at standard format decks which would need to have current card information.  
+    Parameters:
+        conn: 
+            connection to PostgreSQL DB
+    Returns:
+        dataframe:
+            Dataframe containing most recent UUIDs for all cards in the database.
+    """
     query = sql.SQL("""
         WITH newestsetdate AS (
             SELECT name, MAX(setreleasedate) as max_date
@@ -145,7 +155,7 @@ def get_most_recent_uuid_for_card_names(conn):
 def add_uuid_to_deck(deck_df, conn, df_name_field):
     """
     Overview
-        Looks up uuid from card data set and returns updated deck list dataframe with uuid inserted.
+        Looks up uuid from card data set and returns updated deck list dataframe with uuid inserted. 
     Parameters
         deck_df: dataframe
             Dataframe containing the deck data without uuid present
@@ -154,23 +164,8 @@ def add_uuid_to_deck(deck_df, conn, df_name_field):
         df_name_field: str
             column name for the decklist dataframe containing the card name for use in matching and uuid retrieval from the postgresql database
     """
-    query = sql.SQL("""
-        WITH newestsetdate AS (
-            SELECT name, MAX(setreleasedate) as max_date
-            FROM core
-            JOIN setdetails ON "setCode" = "setcode"
-            GROUP BY name
-            ),
-            newestset AS (
-            SELECT name, setcode
-            FROM newestsetdate
-            JOIN setdetails ON newestsetdate.max_date = setdetails.setreleasedate
-            )
-
-            SELECT core.uuid, newestset.name
-            FROM core
-            INNER JOIN newestset ON newestset.name = core.name AND newestset.setcode = core."setCode";""")
-    name_id_df = pd.read_sql(query, conn).groupby("name").max() 
+    
+    name_id_df = get_most_recent_uuid_for_card_names(conn) 
     return deck_df.merge(name_id_df, how = 'left', left_on=df_name_field, right_on="name")
 
 def get_prices(uuid, card_format, price_source, price_list, card_type_order, price_data_json):
